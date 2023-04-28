@@ -1,0 +1,56 @@
+[gd_scene load_steps=3 format=3 uid="uid://brntchfyb3or3"]
+
+[ext_resource type="Script" path="res://scripts/main_background.gd" id="1_m6kp4"]
+[ext_resource type="Texture2D" uid="uid://crkqvldkndl5q" path="res://data/texture.png" id="2_7kfkr"]
+
+[node name="MainBackground" type="Node2D"]
+script = ExtResource("1_m6kp4")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+offset = Vector2(0, 256)
+transform = Transform2D(1, 0, 0, 1, 0, 256)
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.25, 0.25)
+motion_mirroring = Vector2(1024, 0)
+
+[node name="Background" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+texture_filter = 1
+texture = ExtResource("2_7kfkr")
+region_enabled = true
+region_rect = Rect2(1024, 0, 1024, 512)
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.5, 0.5)
+motion_mirroring = Vector2(1024, 0)
+
+[node name="Middleground" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer2"]
+texture_filter = 1
+texture = ExtResource("2_7kfkr")
+region_enabled = true
+region_rect = Rect2(0, 512, 1024, 512)
+
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.55, 0.55)
+motion_mirroring = Vector2(1024, 0)
+
+[node name="Foreground" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer3"]
+texture_filter = 1
+texture = ExtResource("2_7kfkr")
+region_enabled = true
+region_rect = Rect2(0, 0, 1024, 512)
+
+[node name="ParallaxBackground2" type="ParallaxBackground" parent="."]
+layer = 1
+offset = Vector2(0, 256)
+transform = Transform2D(1, 0, 0, 1, 0, 256)
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground2"]
+motion_mirroring = Vector2(1000, 0)
+
+[node name="Grass" type="Sprite2D" parent="ParallaxBackground2/ParallaxLayer"]
+texture_filter = 1
+position = Vector2(0, 173)
+texture = ExtResource("2_7kfkr")
+region_enabled = true
+region_rect = Rect2(1024, 848, 1024, 176)

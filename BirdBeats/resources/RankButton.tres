@@ -1,0 +1,7 @@
+[gd_resource type="AtlasTexture" load_steps=2 format=3 uid="uid://dsgs6tlpqx4ry"]
+
+[ext_resource type="Texture2D" uid="uid://crkqvldkndl5q" path="res://data/texture.png" id="1_fipro"]
+
+[resource]
+atlas = ExtResource("1_fipro")
+region = Rect2(1544, 718, 108, 82)

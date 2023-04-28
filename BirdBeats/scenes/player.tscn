@@ -1,0 +1,131 @@
+[gd_scene load_steps=12 format=3 uid="uid://csiqpgr3q4foa"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_2wfax"]
+[ext_resource type="Texture2D" uid="uid://5fj4pe3kk6ci" path="res://resources/BlueBirdsAtlas.tres" id="2_7m6fu"]
+[ext_resource type="Texture2D" uid="uid://bwrus46jl1gms" path="res://resources/RedBirdsAtlas.tres" id="3_hhpl8"]
+[ext_resource type="Texture2D" uid="uid://fmbvrp1g1sns" path="res://resources/GreyBirdsAtlas.tres" id="4_ua6qj"]
+[ext_resource type="Texture2D" uid="uid://2dn6fvie0aoe" path="res://resources/YellowBirdsAtlas.tres" id="5_jsnke"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hpwvu"]
+height = 24.0
+
+[sub_resource type="Animation" id="Animation_vt83s"]
+resource_name = "flap"
+length = 0.3
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0, 1, 2]
+}
+
+[sub_resource type="Animation" id="Animation_l10gc"]
+resource_name = "idle"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -20), Vector2(0, 0), Vector2(0, 20)]
+}
+
+[sub_resource type="Animation" id="Animation_llmn1"]
+resource_name = "idle_flap"
+length = 1.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0, 1, 2, 3, 0, 1, 2, 3, 0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -50)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, -0.261799]
+}
+
+[sub_resource type="Animation" id="Animation_5653b"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_uj37e"]
+_data = {
+"RESET": SubResource("Animation_5653b"),
+"flap": SubResource("Animation_vt83s"),
+"idle": SubResource("Animation_l10gc"),
+"idle_flap": SubResource("Animation_llmn1")
+}
+
+[node name="Player" type="RigidBody2D" groups=["players"]]
+position = Vector2(59, 256)
+collision_mask = 7
+gravity_scale = 0.0
+lock_rotation = true
+script = ExtResource("1_2wfax")
+birds = Array[AtlasTexture]([ExtResource("2_7m6fu"), ExtResource("3_hhpl8"), ExtResource("4_ua6qj"), ExtResource("5_jsnke")])
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-3, 0)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_hpwvu")
+
+[node name="Bird" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_7m6fu")
+vframes = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Bird"]
+libraries = {
+"": SubResource("AnimationLibrary_uj37e")
+}

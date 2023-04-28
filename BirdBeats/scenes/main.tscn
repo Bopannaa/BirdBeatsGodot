@@ -1,0 +1,124 @@
+[gd_scene load_steps=12 format=3 uid="uid://etto8r5ad4vt"]
+
+[ext_resource type="PackedScene" uid="uid://brntchfyb3or3" path="res://scenes/main_background.tscn" id="1_7eaw1"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_p4xp5"]
+[ext_resource type="Texture2D" uid="uid://dsgs6tlpqx4ry" path="res://resources/RankButton.tres" id="4_dtayu"]
+[ext_resource type="PackedScene" uid="uid://cimom72glkh67" path="res://scenes/pole_spawner.tscn" id="4_tad5y"]
+[ext_resource type="Texture2D" uid="uid://bc4w72w6xfqbj" path="res://resources/PlayButton.tres" id="5_36yvx"]
+[ext_resource type="PackedScene" uid="uid://c0yu52ep7io3n" path="res://scenes/ground.tscn" id="5_cyst4"]
+[ext_resource type="PackedScene" uid="uid://df7mjb0jriv4c" path="res://scenes/top_shield.tscn" id="5_rbmr6"]
+[ext_resource type="Texture2D" uid="uid://usalmhvp5yv4" path="res://scenes/2d_lights_and_shadows_neutral_point_light.webp" id="6_2knuj"]
+[ext_resource type="Texture2D" uid="uid://cva5rn10lh3x6" path="res://resources/GameTitle.tres" id="6_6ah0e"]
+[ext_resource type="Texture2D" uid="uid://crkqvldkndl5q" path="res://data/texture.png" id="7_j60y0"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_8whkw"]
+font_size = 45
+font_color = Color(0.960784, 0.937255, 1, 1)
+
+[node name="Main" type="Node"]
+script = ExtResource("1_p4xp5")
+
+[node name="MainBackground" parent="." instance=ExtResource("1_7eaw1")]
+metadata/_edit_lock_ = true
+
+[node name="PoleSpawner" parent="." instance=ExtResource("4_tad5y")]
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_lock_ = true
+
+[node name="ScoreLabel" type="Label" parent="Control"]
+visible = false
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -35.0
+offset_right = 35.0
+offset_bottom = 66.0
+grow_horizontal = 2
+text = "0"
+label_settings = SubResource("LabelSettings_8whkw")
+horizontal_alignment = 1
+vertical_alignment = 1
+uppercase = true
+
+[node name="RankButton" type="TextureButton" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 5.0
+offset_top = 50.0
+offset_right = 113.0
+offset_bottom = 132.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("4_dtayu")
+
+[node name="PlayButton" type="TextureButton" parent="Control"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -117.0
+offset_top = 48.0
+offset_right = -5.0
+offset_bottom = 132.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_normal = ExtResource("5_36yvx")
+
+[node name="GameTitle" type="TextureRect" parent="Control"]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 136.0
+offset_right = 377.0
+offset_bottom = 212.0
+scale = Vector2(0.65, 0.65)
+texture = ExtResource("6_6ah0e")
+
+[node name="Ground" parent="." instance=ExtResource("5_cyst4")]
+
+[node name="TopShield" parent="." instance=ExtResource("5_rbmr6")]
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(128, 264)
+color = Color(1, 0.6, 0.0235294, 1)
+energy = 0.34
+range_layer_min = -110
+range_layer_max = 100
+shadow_color = Color(0, 0, 0, 0.835294)
+shadow_filter = 1
+shadow_filter_smooth = 13.1
+texture = ExtResource("6_2knuj")
+texture_scale = 1.41
+metadata/_edit_lock_ = true
+
+[node name="GameStartButton" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(124, 232)
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("7_j60y0")
+region_enabled = true
+region_rect = Rect2(1648, 512, 256, 205)
+
+[connection signal="end_game" from="." to="MainBackground" method="_on_main_end_game"]
+[connection signal="end_game" from="." to="PoleSpawner" method="_on_main_end_game"]
+[connection signal="new_game" from="." to="MainBackground" method="_on_main_new_game"]
+[connection signal="start_game" from="." to="MainBackground" method="_on_main_start_game"]
+[connection signal="start_game" from="." to="PoleSpawner" method="_on_main_start_game"]
+[connection signal="scored" from="PoleSpawner" to="." method="_on_pole_spawner_scored"]
+[connection signal="spawning_pole_stopped" from="PoleSpawner" to="." method="_on_pole_spawner_spawning_pole_stopped"]
+[connection signal="pressed" from="Control/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="Control/PlayButton" to="MainBackground" method="_on_play_button_pressed"]
+[connection signal="grounded" from="Ground" to="." method="_on_ground_grounded"]
